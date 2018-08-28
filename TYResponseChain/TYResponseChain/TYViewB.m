@@ -34,13 +34,20 @@
     NSLog(@"点击");
 }
 - (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
-    NSLog(@"反应范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
-//    if ([self.layer containsPoint:point]){
-//        return self;
-//    }else{
+//    NSLog(@"反应范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
+////    if ([self.layer containsPoint:point]){
+////        return self;
+////    }else{
+////        return nil;
+////    }
+    NSLog(@"我点击了viewB:%@",[super hitTest:point withEvent:event]);
+    return [super hitTest:point withEvent:event];
+//    UIView *hitView = [super hitTest:point withEvent:event];
+//    if(hitView == self){viewB
 //        return nil;
 //    }
-    return [super hitTest:point withEvent:event];
+//    return hitView;
+//    return self;
 }
 
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
@@ -50,6 +57,12 @@
 //    }else{
 //        return NO;
 //    }
+    return YES;
+}
+
+
+/** 允许对象成为第一响应者 */
+- (BOOL)canBecomeFirstResponder {
     return YES;
 }
 /*

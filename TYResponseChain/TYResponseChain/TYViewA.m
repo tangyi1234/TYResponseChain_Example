@@ -22,6 +22,7 @@
 //        return nil;
 //    }
 //    return nil;
+    NSLog(@"我接受的是那个view：%@",[super hitTest:point withEvent:event]);
     return [super hitTest:point withEvent:event];
 }
 

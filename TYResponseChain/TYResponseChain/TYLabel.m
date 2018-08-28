@@ -23,33 +23,34 @@
     [self setupTap];
 }
 
-- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
-    NSLog(@"反应范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
-    //    if ([self.layer containsPoint:point]){
-    //        return self;
-    //    }else{
-    //        return nil;
-    //    }
-        return [super hitTest:point withEvent:event];
-}
-
-- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
-    NSLog(@"触控范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
-    //    if ([self.layer containsPoint:point]){
-    //        return YES;
-    //    }else{
-    //        return NO;
-    //    }
-    return NO;
-}
+//- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event{
+//    NSLog(@"反应范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
+//    //    if ([self.layer containsPoint:point]){
+//    //        return self;
+//    //    }else{
+//    //        return nil;
+//    //    }
+//        return [super hitTest:point withEvent:event];
+//}
+//
+//- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+//    NSLog(@"触控范围B:%@ 事件:%@",NSStringFromCGPoint(point),event);
+//    //    if ([self.layer containsPoint:point]){
+//    //        return YES;
+//    //    }else{
+//    //        return NO;
+//    //    }
+//    return NO;
+//}
 
 /** 设置敲击手势 */
 - (void)setupTap
 {
     
     self.text = @"author:会跳舞的狮子";
+//    [self becomeFirstResponder];
     //已经在stroyboard设置了与用户交互,也可以用纯代码设置
-    //    self.userInteractionEnabled = YES;
+    self.userInteractionEnabled = YES;
     
     //当前控件是label 所以是给label添加敲击手势
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelClick)]];
@@ -82,6 +83,8 @@
     // 显示菜单
     [menu setMenuVisible:YES animated:YES];
 }
+
+
 
 #pragma mark - UIMenuController相关
 /**
@@ -146,6 +149,31 @@
 {
     NSLog(@"%s %@", __func__, menu);
 }
+
+/** 手指按下时响应 */
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    NSLog(@"--->手指按下时响应");
+}
+
+/** 手指移动时响应 */
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesMoved:touches withEvent:event];
+    NSLog(@"--->手指移动时响应");
+}
+
+/** 手指抬起时响应 */
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    NSLog(@"--->手指抬起时响应");
+}
+
+/** 触摸取消(意外中断, 如:电话, Home键退出等) */
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    NSLog(@"--->取消触摸响应");
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
