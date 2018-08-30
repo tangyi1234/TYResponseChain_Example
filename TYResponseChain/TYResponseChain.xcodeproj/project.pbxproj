@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A225471A213786D300853E8E /* TYRuntimeSuperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2254719213786D300853E8E /* TYRuntimeSuperViewController.m */; };
+		A225471D2137DCCF00853E8E /* TYRuntime.m in Sources */ = {isa = PBXBuildFile; fileRef = A225471C2137DCCF00853E8E /* TYRuntime.m */; };
+		A22547202137E94A00853E8E /* TYRuntimeSubclass.m in Sources */ = {isa = PBXBuildFile; fileRef = A225471F2137E94A00853E8E /* TYRuntimeSubclass.m */; };
+		A2A5012C2136866700C9DA07 /* TYViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A5012B2136866700C9DA07 /* TYViewController.m */; };
+		A2A5012F2136895800C9DA07 /* TYRuntimeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2A5012E2136895800C9DA07 /* TYRuntimeViewController.m */; };
 		A2C68589212F999E00A3A3F4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C68588212F999E00A3A3F4 /* AppDelegate.m */; };
 		A2C6858C212F999E00A3A3F4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A2C6858B212F999E00A3A3F4 /* ViewController.m */; };
 		A2C68592212F999E00A3A3F4 /* TYResponseChain.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A2C68590212F999E00A3A3F4 /* TYResponseChain.xcdatamodeld */; };
@@ -23,6 +28,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		A2254718213786D300853E8E /* TYRuntimeSuperViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYRuntimeSuperViewController.h; sourceTree = "<group>"; };
+		A2254719213786D300853E8E /* TYRuntimeSuperViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYRuntimeSuperViewController.m; sourceTree = "<group>"; };
+		A225471B2137DCCF00853E8E /* TYRuntime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYRuntime.h; sourceTree = "<group>"; };
+		A225471C2137DCCF00853E8E /* TYRuntime.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYRuntime.m; sourceTree = "<group>"; };
+		A225471E2137E94900853E8E /* TYRuntimeSubclass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYRuntimeSubclass.h; sourceTree = "<group>"; };
+		A225471F2137E94A00853E8E /* TYRuntimeSubclass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYRuntimeSubclass.m; sourceTree = "<group>"; };
+		A2A5012A2136866700C9DA07 /* TYViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYViewController.h; sourceTree = "<group>"; };
+		A2A5012B2136866700C9DA07 /* TYViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYViewController.m; sourceTree = "<group>"; };
+		A2A5012D2136895800C9DA07 /* TYRuntimeViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYRuntimeViewController.h; sourceTree = "<group>"; };
+		A2A5012E2136895800C9DA07 /* TYRuntimeViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYRuntimeViewController.m; sourceTree = "<group>"; };
 		A2C68584212F999E00A3A3F4 /* TYResponseChain.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TYResponseChain.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2C68587212F999E00A3A3F4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A2C68588212F999E00A3A3F4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -82,8 +97,18 @@
 			children = (
 				A2C68587212F999E00A3A3F4 /* AppDelegate.h */,
 				A2C68588212F999E00A3A3F4 /* AppDelegate.m */,
+				A2A5012A2136866700C9DA07 /* TYViewController.h */,
+				A2A5012B2136866700C9DA07 /* TYViewController.m */,
 				A2C6858A212F999E00A3A3F4 /* ViewController.h */,
 				A2C6858B212F999E00A3A3F4 /* ViewController.m */,
+				A2A5012D2136895800C9DA07 /* TYRuntimeViewController.h */,
+				A2A5012E2136895800C9DA07 /* TYRuntimeViewController.m */,
+				A2254718213786D300853E8E /* TYRuntimeSuperViewController.h */,
+				A2254719213786D300853E8E /* TYRuntimeSuperViewController.m */,
+				A225471B2137DCCF00853E8E /* TYRuntime.h */,
+				A225471C2137DCCF00853E8E /* TYRuntime.m */,
+				A225471E2137E94900853E8E /* TYRuntimeSubclass.h */,
+				A225471F2137E94A00853E8E /* TYRuntimeSubclass.m */,
 				A2C685A0212FA11600A3A3F4 /* TYViewA.h */,
 				A2C685A1212FA11600A3A3F4 /* TYViewA.m */,
 				A2C685A3212FA12F00A3A3F4 /* TYViewB.h */,
@@ -180,15 +205,20 @@
 			files = (
 				A2C685AB212FA15000A3A3F4 /* TYViewD.m in Sources */,
 				A2C685A8212FA14200A3A3F4 /* TYViewC.m in Sources */,
+				A225471A213786D300853E8E /* TYRuntimeSuperViewController.m in Sources */,
+				A225471D2137DCCF00853E8E /* TYRuntime.m in Sources */,
 				A2C68592212F999E00A3A3F4 /* TYResponseChain.xcdatamodeld in Sources */,
+				A2A5012F2136895800C9DA07 /* TYRuntimeViewController.m in Sources */,
 				A2C6858C212F999E00A3A3F4 /* ViewController.m in Sources */,
 				A2C685AE212FA16100A3A3F4 /* TYViewE.m in Sources */,
+				A2A5012C2136866700C9DA07 /* TYViewController.m in Sources */,
 				A2C6859A212F999E00A3A3F4 /* main.m in Sources */,
 				A2C68589212F999E00A3A3F4 /* AppDelegate.m in Sources */,
 				A2C685A5212FA12F00A3A3F4 /* TYViewB.m in Sources */,
 				A2C685B2212FA7B100A3A3F4 /* UIResponder+TYResponder.m in Sources */,
 				A2C685A2212FA11600A3A3F4 /* TYViewA.m in Sources */,
 				A2C685B621300E7100A3A3F4 /* TYLabel.m in Sources */,
+				A22547202137E94A00853E8E /* TYRuntimeSubclass.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

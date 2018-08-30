@@ -19,7 +19,7 @@
 }
 
 - (void)initButView{
-    [self becomeFirstResponder];
+//    [self becomeFirstResponder];
     UIButton *but = [UIButton buttonWithType:UIButtonTypeCustom];
     but.frame = CGRectMake(10, 10, 100, 30);
     but.backgroundColor = [UIColor greenColor];
@@ -62,8 +62,32 @@
 
 
 /** 允许对象成为第一响应者 */
-- (BOOL)canBecomeFirstResponder {
-    return YES;
+//- (BOOL)canBecomeFirstResponder {
+//    return YES;
+//}
+
+/** 手指按下时响应 */
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesBegan:touches withEvent:event];
+    NSLog(@"B--->手指按下时响应");
+}
+
+/** 手指移动时响应 */
+- (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesMoved:touches withEvent:event];
+    NSLog(@"B--->手指移动时响应");
+}
+
+/** 手指抬起时响应 */
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesEnded:touches withEvent:event];
+    NSLog(@"B--->手指抬起时响应");
+}
+
+/** 触摸取消(意外中断, 如:电话, Home键退出等) */
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    [super touchesCancelled:touches withEvent:event];
+    NSLog(@"B--->取消触摸响应");
 }
 /*
 // Only override drawRect: if you perform custom drawing.
