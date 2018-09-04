@@ -9,6 +9,8 @@
 #import "TYViewController.h"
 #import "ViewController.h"
 #import "TYRuntimeViewController.h"
+#import "TYButViewController.h"
+
 @interface TYViewController ()
 
 @end
@@ -35,6 +37,20 @@
     [but2 setTitle:@"runtime" forState:UIControlStateNormal];
     [but2 addTarget:self action:@selector(selectorBut2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but2];
+    
+    UIButton *but3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but3.frame = CGRectMake(10, 180, 150, 40);
+    but3.backgroundColor = [UIColor greenColor];
+    [but3 setTitle:@"按钮" forState:UIControlStateNormal];
+    [but3 addTarget:self action:@selector(selectorBut3) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but3];
+    
+    UIButton *but4 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but4.frame = CGRectMake(10, 230, 150, 40);
+    but4.backgroundColor = [UIColor yellowColor];
+    [but4 setTitle:@"处理问题" forState:UIControlStateNormal];;
+    [but4 addTarget:self action:@selector(selectorBut4) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but4];
 }
 
 - (void)selectorBut1{
@@ -47,6 +63,15 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 
+- (void)selectorBut3 {
+    TYButViewController *vc = [[TYButViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)selectorBut4{
+//    TYClickQuestionViewController*VC = [[TYClickQuestionViewController alloc] init];
+//    [self.navigationController pushViewController:VC animated:YES];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
