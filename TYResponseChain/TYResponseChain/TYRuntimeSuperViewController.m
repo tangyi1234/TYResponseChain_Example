@@ -8,7 +8,9 @@
 
 #import "TYRuntimeSuperViewController.h"
 #import "TYRuntimeView.h"
+#import "TYRuntimeSubclass.h"
 #import <objc/runtime.h>
+#import <objc/message.h>
 @interface TYRuntimeSuperViewController ()
 
 @end
@@ -29,6 +31,19 @@
     [but setTitle:@"按钮" forState:UIControlStateNormal];
     [but addTarget:self action:@selector(selectorBut) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but];
+    
+    UIButton *but1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but1.frame = CGRectMake(10, 130, 200, 40);
+    but1.backgroundColor = [UIColor yellowColor];
+    [but1 setTitle:@"按钮1" forState:UIControlStateNormal];
+    [but1 addTarget:self action:@selector(selectorBut1) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but1];
+    
+    UIButton *but2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but2.frame = CGRectMake(10, 180, 200, 40);
+    but2.backgroundColor = [UIColor greenColor];
+    [but2 addTarget:self action:@selector(selectorBut2) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but2];
 }
 
 - (void)selectorBut{
@@ -46,40 +61,47 @@
      第二个方法获取的是类方法
      第一个方法获取到了什么值，这都是根据我们传进来的类型有关
      */
-    Class cls = object_getClass(objc);
-    [self initButView:cls];
-    NSLog(@"这里的isa:%p",cls);
-    NSLog(@"类名:%@",[self getRtr:cls]);
-    //metaClass
-    Class metaCls1 = object_getClass(cls);
-    [self initButView:metaCls1];
-    NSLog(@"这里的isa:%p",metaCls1);
-    NSLog(@"metaCls1类名:%@",[self getRtr:metaCls1]);
-    Class metaCls2 = object_getClass(metaCls1);
-    NSLog(@"这里的isa:%p",metaCls2);
-    NSLog(@"metaCls2类名:%@",[self getRtr:metaCls2]);
-    Class metaCls3 = object_getClass(metaCls2);
-    NSLog(@"这里的isa:%p",metaCls3);
-    NSLog(@"metaCls3类名:%@",[self getRtr:metaCls3]);
-    Class metaCls4 = object_getClass(metaCls3);
-    NSLog(@"这里的isa:%p",metaCls4);
-    NSLog(@"metaCls4类名:%@",[self getRtr:metaCls4]);
-
-    //superClass
-    Class superCls1 = class_getSuperclass(cls);
-    NSLog(@"父类这里的isa1:%p",superCls1);
-    NSLog(@"父类类名1:%@",[self getRtr:superCls1]);
-    Class superCls2 = class_getSuperclass(superCls1);
-    NSLog(@"父类这里的isa2:%p",superCls2);
-    NSLog(@"父类类名2:%@",[self getRtr:superCls2]);
-    Class superCls3 = class_getSuperclass(superCls2);
-    NSLog(@"父类这里的isa3:%p",superCls3);
-    NSLog(@"父类类名3:%@",[self getRtr:superCls3]);
-    Class superCls4 = class_getSuperclass(superCls3);
-    NSLog(@"父类这里的isa4:%p",superCls4);
-    NSLog(@"父类类名:%@4",[self getRtr:superCls4]);
+          
+//    Class metaCls2 = object_getClass(metaCls1);
+//    NSLog(@"这里的isa:%p",metaCls2);
+//    NSLog(@"metaCls2类名:%@",[self getRtr:metaCls2]);
+//    Class metaCls3 = object_getClass(metaCls2);
+//    NSLog(@"这里的isa:%p",metaCls3);
+//    NSLog(@"metaCls3类名:%@",[self getRtr:metaCls3]);
+//    Class metaCls4 = object_getClass(metaCls3);
+//    NSLog(@"这里的isa:%p",metaCls4);
+//    NSLog(@"metaCls4类名:%@",[self getRtr:metaCls4]);
+//
+//    //superClass
+//    Class superCls1 = class_getSuperclass(cls);
+//    NSLog(@"父类这里的isa1:%p",superCls1);
+//    NSLog(@"父类类名1:%@",[self getRtr:superCls1]);
+//    Class superCls2 = class_getSuperclass(superCls1);
+//    NSLog(@"父类这里的isa2:%p",superCls2);
+//    NSLog(@"父类类名2:%@",[self getRtr:superCls2]);
+//    Class superCls3 = class_getSuperclass(superCls2);
+//    NSLog(@"父类这里的isa3:%p",superCls3);
+//    NSLog(@"父类类名3:%@",[self getRtr:superCls3]);
+//    Class superCls4 = class_getSuperclass(superCls3);
+//    NSLog(@"父类这里的isa4:%p",superCls4);
+//    NSLog(@"父类类名:%@4",[self getRtr:superCls4]);
 
     
+}
+
+- (void)selectorBut1{
+    TYRuntimeSubclass *subclass = [[TYRuntimeSubclass alloc] init];
+    Class cla = object_getClass(subclass);
+    NSLog(@"类名:%@",[self getRtr:cla]);
+    [self initButView:cla];
+    Class suCla = class_getSuperclass(cla);
+    NSLog(@"类名:%@",[self getRtr:suCla]);
+    [self initButView:suCla];
+}
+
+- (void)selectorBut2{
+    TYRuntimeSubclass *subclass = [[TYRuntimeSubclass alloc] init];
+    objc_msgSend(subclass, @selector(performRuntime));
 }
 
 - (NSString *)getRtr:(Class)cla{

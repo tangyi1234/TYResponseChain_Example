@@ -9,5 +9,7 @@
 #import "TYRuntime.h"
 
 @implementation TYRuntime
-
+- (void)performRuntime{
+    NSLog(@"这是父类");
+}
 @end

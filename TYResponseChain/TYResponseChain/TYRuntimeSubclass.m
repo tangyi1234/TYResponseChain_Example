@@ -9,5 +9,7 @@
 #import "TYRuntimeSubclass.h"
 
 @implementation TYRuntimeSubclass
-
+- (void)performRuntime{
+    NSLog(@"这是子类");
+}
 @end
