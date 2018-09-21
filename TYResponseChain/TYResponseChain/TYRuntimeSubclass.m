@@ -7,9 +7,13 @@
 //
 
 #import "TYRuntimeSubclass.h"
+#import <objc/message.h>
 
 @implementation TYRuntimeSubclass
 - (void)performRuntime{
     NSLog(@"这是子类");
+}
++ (void)performRuntimeClass{
+    NSLog(@"类方法");
 }
 @end

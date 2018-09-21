@@ -11,6 +11,7 @@
 #import "TYRuntimeSubclass.h"
 #import <objc/runtime.h>
 #import <objc/message.h>
+#import "TYFoo.h"
 @interface TYRuntimeSuperViewController ()
 
 @end
@@ -44,6 +45,13 @@
     but2.backgroundColor = [UIColor greenColor];
     [but2 addTarget:self action:@selector(selectorBut2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but2];
+    
+    UIButton *but3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but3.frame = CGRectMake(10, 230, 200, 40);
+    but3.backgroundColor = [UIColor redColor];
+    [but3 setTitle:@"按钮3" forState:UIControlStateNormal];
+    [but3 addTarget:self action:@selector(selectorBut3) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but3];
 }
 
 - (void)selectorBut{
@@ -100,9 +108,85 @@
 }
 
 - (void)selectorBut2{
+    /**
+     struct objc_super supersSuper;
+     supersSuper.receiver = self;
+     supersSuper.super_class = object_getClass(class_getSuperclass(class_getSuperclass(self)));
+     
+     return objc_msgSendSuper(&supersSuper, _cmd);
+     */
     TYRuntimeSubclass *subclass = [[TYRuntimeSubclass alloc] init];
     objc_msgSend(subclass, @selector(performRuntime));
+    objc_msgSend([TYRuntimeSubclass class], @selector(performRuntimeClass));
+//    objc_msgSendSuper((__bridge struct objc_super *)(class_getSuperclass(subclass)), @selector(performRuntime));
+//    NSLog(@"打印结果:%@",[TYRuntimeSubclass point]);
+//    id a = [TYRuntimeSubclass parentClass];
+//    NSLog(@"这是服类吗:%@",[TYRuntimeSubclass parentClass]);
+//    NSLog(@"打印结果:%@",);
+//    TYFoo *foo = [[TYFoo alloc] init];
+//    foo.weight = 20;
 }
+
+- (void)selectorBut3{
+    [self performSelector:@selector(foo)];
+}
+/**
+ 这是解析的第一阶段
+ */
++ (BOOL)resolveInstanceMethod:(SEL)sel{
+    if (sel == @selector(foo)) {//这是用来仿制说明消息解析的过程，因为这没有实现foo的方法如果安照实际来说是会出现崩溃显现的。我们在这里就是将foo方法执行转化了执行fooMethod方法。
+        class_addMethod([self class], sel, (IMP)fooMethod, "v@");//这就包含那副经典图的流程
+        return YES;
+    }
+    BOOL mothod = [super resolveInstanceMethod:sel];
+    NSLog(@"这是个什么值:%d",mothod);
+    return mothod;
+
+}
+
+
+void fooMethod(id obj , SEL _cmd){
+    NSLog(@"执行foo:");
+}
+
+/**
+ 如果第一阶段是返回的为NO或YES都就会执行下一阶段，这里看执不执行下一阶段这里主要看的是有class_addMethod方法。如果是有就会抛除消息转发机制直接执行IMP方法，消息转发
+ */
+- (id)forwardingTargetForSelector:(SEL)aSelector {
+    NSString *str = NSStringFromSelector(aSelector);
+    NSLog(@"打印这是什么方法:%@",str);
+    if (aSelector == @selector(foo)) {
+        return [TYFoo new];//返回TYFoo对象，让TYFoo对象接收这个消息
+    }
+
+    return [super forwardingTargetForSelector:aSelector];
+}
+
+
+/**
+ 走到这一步说上面两步都无法响应那个方法，这是最后一次机会了。进入这里的前提条件是第一步无法调用class_addMethod方法的IMP方法，和第二步是返回为nil。
+ */
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    if ([NSStringFromSelector(aSelector) isEqualToString:@"foo"]) {
+        return [NSMethodSignature signatureWithObjCTypes:"v@:"];//签名，进入forwardInvocation
+    }
+    
+    return [super methodSignatureForSelector:aSelector];
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    SEL sel = anInvocation.selector;
+    
+    TYFoo *foo = [TYFoo new];
+    if([foo respondsToSelector:sel]) {
+        [anInvocation invokeWithTarget:foo];
+    }
+    else {
+        [self doesNotRecognizeSelector:sel];
+    }
+    
+}
+
 
 - (NSString *)getRtr:(Class)cla{
     return NSStringFromClass(cla);

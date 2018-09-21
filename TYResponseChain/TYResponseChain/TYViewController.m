@@ -10,6 +10,7 @@
 #import "ViewController.h"
 #import "TYRuntimeViewController.h"
 #import "TYButViewController.h"
+#import "TYRunLoopViewController.h"
 
 @interface TYViewController ()
 
@@ -51,6 +52,13 @@
     [but4 setTitle:@"处理问题" forState:UIControlStateNormal];;
     [but4 addTarget:self action:@selector(selectorBut4) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but4];
+    
+    UIButton *but5 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but5.frame = CGRectMake(10, 280, 150, 30);
+    but5.backgroundColor = [UIColor redColor];
+    [but5 setTitle:@"runloop按钮" forState:UIControlStateNormal];
+    [but5 addTarget:self action:@selector(selectorBut5) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but5];
 }
 
 - (void)selectorBut1{
@@ -71,6 +79,11 @@
 - (void)selectorBut4{
 //    TYClickQuestionViewController*VC = [[TYClickQuestionViewController alloc] init];
 //    [self.navigationController pushViewController:VC animated:YES];
+}
+
+- (void)selectorBut5{
+    TYRunLoopViewController *vc = [[TYRunLoopViewController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
