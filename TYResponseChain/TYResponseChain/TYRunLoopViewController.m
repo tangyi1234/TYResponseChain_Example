@@ -7,12 +7,17 @@
 //
 
 #import "TYRunLoopViewController.h"
+#import "TYWorkerClass.h"
+#define kMsg1 100
+#define kMsg2 101
 
-@interface TYRunLoopViewController ()<UIScrollViewDelegate>
+@interface TYRunLoopViewController ()<UIScrollViewDelegate,NSMachPortDelegate>
 @property (nonatomic, weak) UIScrollView *scrollView;
 @property (nonatomic, weak) UIImageView *imageView;
 @property (nonatomic, strong) dispatch_source_t timer;
 @property (nonatomic, strong) NSThread *thr;
+@property (nonatomic, strong) TYWorkerClass *work;
+@property (nonatomic, strong) NSThread *thread;
 @end
 
 @implementation TYRunLoopViewController
@@ -37,6 +42,13 @@
     [but2 setTitle:@"子线程" forState:UIControlStateNormal];
     [but2 addTarget:self action:@selector(selectorBut2) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but2];
+    
+    UIButton *but3 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but3.frame = CGRectMake(10, 140, 200, 30);
+    but3.backgroundColor = [UIColor redColor];
+    [but3 setTitle:@"线程间通信" forState:UIControlStateNormal];
+    [but3 addTarget:self action:@selector(selectorBut) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but3];
 }
 
 - (void)initScrollView{
@@ -214,6 +226,80 @@
 
 - (void)selectorBut3{
     NSLog(@"%@",[NSThread currentThread]);
+}
+//线程间通信
+- (void)selectorBut{
+    //1. 创建主线程的port
+    // 子线程通过此端口发送消息给主线程
+    NSPort *myPort = [NSMachPort port];
+    
+    //2. 设置port的代理回调对象
+    myPort.delegate = self;
+    
+    //3. 把port加入runloop，接收port消息
+    [[NSRunLoop currentRunLoop] addPort:myPort forMode:NSDefaultRunLoopMode];
+    
+    NSLog(@"---myport %@", myPort);
+    //4. 启动次线程,并传入主线程的port(开启次线程的目的是实现与主线程的交互)。这里的TYWorkerClass代码执行一定要在子线程中运行，如果是在主线中调TYWorkerClass的，那么他只会在主线程中运行。
+    _work = [[TYWorkerClass alloc] init];
+//    [_work interfaceWithPort:myPort];
+//    self.thread = [[NSThread alloc]initWithTarget:_work selector:@selector(launchThreadWithPort:) object:myPort];
+//    [self.thread start];
+    [NSThread detachNewThreadSelector:@selector(launchThreadWithPort:)
+                             toTarget:_work
+                           withObject:myPort];
+    
+    
+    
+//    NSPort *port = [NSMachPort port];
+//    if (port) {
+//        port.delegate = self;
+//        //创建一个线程
+//        [[NSThread currentThread] setName:@"launchThreadForPort---Thread"];
+//        [[NSRunLoop currentRunLoop] addPort:port forMode:NSDefaultRunLoopMode];
+//
+//        TYWorkerClass *work  = [[TYWorkerClass alloc] init];
+//        [NSThread detachNewThreadSelector:@selector(launchThreadWithPort:) toTarget:work withObject:port];
+//
+//    }
+}
+
+- (void)handlePortMessage:(NSMessagePort*)message{
+    
+    NSLog(@"接到子线程传递的消息！%@",message);
+    
+    //1. 消息id
+    NSUInteger msgId = [[message valueForKeyPath:@"msgid"] integerValue];
+    
+    //2. 当前主线程的port
+    NSPort *localPort = [message valueForKeyPath:@"localPort"];
+    NSLog(@"主线程端口:%@",localPort);
+    //3. 接收到消息的port（来自其他线程）
+    NSPort *remotePort = [message valueForKeyPath:@"remotePort"];
+    NSLog(@"还有子线程吗:%@",remotePort);
+    if (msgId == kMsg1)
+    {
+        NSLog(@"当前线程是什么:%@",[NSThread currentThread]);
+        NSLog(@"对像是否为空:%@",_work);
+        [_work getCurrentThread];
+        //向子线的port发送消息
+//        BOOL a = [remotePort sendBeforeDate:[NSDate date]
+//                             msgid:kMsg2
+//                        components:nil
+//                              from:localPort
+//                          reserved:0];
+        
+        BOOL a = [localPort sendBeforeDate:[NSDate date]
+                                      msgid:kMsg2
+                                 components:nil
+                                       from:remotePort
+                                   reserved:0];
+        NSLog(@"是否发送成功:%d",a);
+        //这里无法用于子线程进行线程交互，不知道是什么原因
+        
+    } else if (msgId == kMsg2){
+        NSLog(@"操作2....\n");
+    }
 }
 
 - (void)didReceiveMemoryWarning {

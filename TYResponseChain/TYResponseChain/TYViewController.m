@@ -11,7 +11,7 @@
 #import "TYRuntimeViewController.h"
 #import "TYButViewController.h"
 #import "TYRunLoopViewController.h"
-
+#import "TYPortViewController.h"
 @interface TYViewController ()
 
 @end
@@ -59,6 +59,13 @@
     [but5 setTitle:@"runloop按钮" forState:UIControlStateNormal];
     [but5 addTarget:self action:@selector(selectorBut5) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:but5];
+    
+    UIButton *but6 = [UIButton buttonWithType:UIButtonTypeCustom];
+    but6.frame = CGRectMake(10, 320, 200, 30);
+    but6.backgroundColor = [UIColor yellowColor];
+    [but6 setTitle:@"线程间通信" forState:UIControlStateNormal];
+    [but6 addTarget:self action:@selector(selectorBut6) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:but6];
 }
 
 - (void)selectorBut1{
@@ -84,6 +91,11 @@
 - (void)selectorBut5{
     TYRunLoopViewController *vc = [[TYRunLoopViewController alloc] init];
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (void)selectorBut6{
+    TYPortViewController *poVc = [[TYPortViewController alloc] init];
+    [self.navigationController pushViewController:poVc animated:YES];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
