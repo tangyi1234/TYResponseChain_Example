@@ -65,19 +65,19 @@
 
 - (void)selectorBut1{
     //开辟一个子线程
-    NSThread *thread = [[NSThread alloc]initWithTarget:self selector:@selector(childThreadSele) object:nil];
-    [thread start];
-    NSLog(@"子线程是否还在执行:%d",[thread isExecuting]);
-    [self performSelector:@selector(lordSonSele) onThread:thread withObject:nil waitUntilDone:NO];
+    self.thread = [[NSThread alloc]initWithTarget:self selector:@selector(childThreadSele) object:nil];
+    [self.thread start];
+    NSLog(@"子线程是否还在执行:%d",[self.thread isExecuting]);
+    [self performSelector:@selector(lordSonSele) onThread:self.thread withObject:nil waitUntilDone:NO];
 }
 
 - (void)selectorBut2{
     //是否正在执行
-//    NSLog(@"子线程是否还在执行:%d",[self.thread isExecuting]);
+    NSLog(@"子线程是否还在执行:%d",[self.thread isExecuting]);
 //    NSLog(@"在这里子线程是否还在执行:%d",[self.thread isExecuting]);
     [self.thread isExecuting];
 //    [self performSelector:@selector(lordSonSele) onThread:self.thread withObject:nil waitUntilDone:NO];
-    [self performSelectorInBackground:@selector(lordSonSele) withObject:nil];
+//    [self performSelectorInBackground:@selector(lordSonSele) withObject:nil];
 }
 
 - (void)threadRun{
@@ -122,16 +122,13 @@
     //设置线程名称
     [[NSThread currentThread] setName:@"childThreadName"];
     _img1 = [self processingImages:@"http://10.10.61.218:8080/name/6.png"];
-    while (1){
-        if ([[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]]) //相当于join
-            {
-                NSLog(@"线程B结束");
-                break;
-            }
-        }
+    //向NSThread中加入到RunLoop中,如果这里是返回为yes代表是线程结束了。
+    [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+
 }
 
 - (void)lordSonSele{
+    [NSThread sleepForTimeInterval:5.0];
     NSLog(@"第二个线程");
     [[NSThread currentThread] setName:@"lordSonThreadName"];
     _img2 = [self processingImages:@"http://10.10.61.218:8080/name/12.png"];
